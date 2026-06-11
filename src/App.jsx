@@ -1,41 +1,58 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ProductProvider } from "./context/ProductContext";
-import { CartProvider } from "./context/CartContext";
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import RouteScrollToTop from './components/common/RouteScrollToTop';
+import { ProductProvider } from './context/ProductContext';
+import { CartProvider } from './context/CartContext';
+import { WishlistProvider } from './context/WishlistContext';
+import { ThemeProvider } from './context/ThemeContext';
+import { ToastProvider } from './context/ToastContext';
+import Layout from './components/common/Layout';
+import AdminLayout from './components/admin/AdminLayout';
 
-// Pages
-import Landing from "./pages/ecommerce/Landing";
-import Products from "./pages/ecommerce/Products";
-import ProductDetail from "./pages/ecommerce/ProductDetail";
-import Cart from "./pages/ecommerce/Cart";
-import Checkout from "./pages/ecommerce/Checkout";
-import Profile from "./pages/ecommerce/Profile";
-import OrderHistory from "./pages/ecommerce/OrderHistory";
-import AdminDashboard from "./pages/ecommerce/AdminDashboard";
-import Footer from "./components/common/Footer";
+import Landing from './pages/ecommerce/Landing';
+import Products from './pages/ecommerce/Products';
+import ProductDetail from './pages/ecommerce/ProductDetail';
+import Cart from './pages/ecommerce/Cart';
+import Checkout from './pages/ecommerce/Checkout';
+import Profile from './pages/ecommerce/Profile';
+import OrderHistory from './pages/ecommerce/OrderHistory';
+import Wishlist from './pages/ecommerce/Wishlist';
+import AdminDashboard from './pages/ecommerce/AdminDashboard';
 
 function App() {
   return (
     <BrowserRouter>
-      <ProductProvider>
-        <CartProvider>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/orders" element={<OrderHistory />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/about" element={<Landing />} />
-            <Route path="/contact" element={<Landing />} />
+      <RouteScrollToTop />
+      <ThemeProvider>
+        <ProductProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <ToastProvider>
+                <Routes>
+                  <Route element={<Layout />}>
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/products" element={<Products />} />
+                    <Route path="/products/:id" element={<ProductDetail />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/orders" element={<OrderHistory />} />
+                    <Route path="/wishlist" element={<Wishlist />} />
+                    <Route path="/about" element={<Landing />} />
+                    <Route path="/contact" element={<Landing />} />
+                  </Route>
 
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-          <Footer />
-        </CartProvider>
-      </ProductProvider>
+                  <Route element={<AdminLayout />}>
+                    <Route path="/admin" element={<AdminDashboard />} />
+                  </Route>
+
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </ToastProvider>
+            </WishlistProvider>
+          </CartProvider>
+        </ProductProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

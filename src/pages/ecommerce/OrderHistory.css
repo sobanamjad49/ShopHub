@@ -1,0 +1,263 @@
+.order-history-page {
+  flex: 1;
+  background-color: #f5f5f5;
+  padding: 2rem;
+}
+
+.orders-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.orders-container h1 {
+  margin: 0 0 2rem 0;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.orders-content {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+}
+
+.orders-list h2,
+.order-details h2 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  color: #333;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 1rem;
+}
+
+.order-card {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid transparent;
+}
+
+.order-card:hover {
+  background: #f0f0f0;
+  border-color: #ddd;
+}
+
+.order-card.active {
+  background: white;
+  border-color: #333;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.order-number {
+  font-weight: 600;
+  color: #333;
+}
+
+.order-status {
+  background: #e8f5e9;
+  color: #27ae60;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.order-date {
+  margin: 0.25rem 0;
+  color: #999;
+  font-size: 0.85rem;
+}
+
+.order-total {
+  margin: 0.5rem 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.order-items-count {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.order-details {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.order-info-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.order-info-section h3,
+.order-items-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.order-info-section p,
+.order-items-section p {
+  margin: 0.25rem 0;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+
+.items-table thead {
+  background-color: #e0e0e0;
+}
+
+.items-table th {
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+}
+
+.items-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e0e0e0;
+  color: #666;
+}
+
+.items-table tbody tr:hover {
+  background-color: white;
+}
+
+.order-summary {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 4px;
+  margin-top: 1.5rem;
+}
+
+.summary-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  color: #666;
+}
+
+.summary-line:last-child {
+  border-bottom: none;
+}
+
+.summary-line span:last-child {
+  font-weight: 600;
+  color: #333;
+}
+
+.summary-line.status span:last-child {
+  background: #e8f5e9;
+  color: #27ae60;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+}
+
+.no-orders {
+  text-align: center;
+  padding: 3rem;
+}
+
+.no-orders p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.shop-btn {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background-color: #333;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+}
+
+.shop-btn:hover {
+  background-color: #555;
+}
+
+@media (max-width: 768px) {
+  .orders-content {
+    grid-template-columns: 1fr;
+  }
+
+  .orders-container h1 {
+    font-size: 1.8rem;
+  }
+
+  .items-table {
+    font-size: 0.9rem;
+  }
+
+  .items-table th,
+  .items-table td {
+    padding: 0.5rem;
+  }
+}
+
+.order-items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.order-item-card {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f8f9fc;
+  border-radius: 8px;
+}
+
+.order-item-thumb {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.order-item-name {
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+}
+
+.order-item-meta {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+}
+
+.order-item-total {
+  font-weight: 700;
+  color: var(--primary, #667eea);
+  margin: 0.25rem 0 0 0;
+}

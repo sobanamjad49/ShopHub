@@ -1,0 +1,126 @@
+.wishlist-page {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.wishlist-header {
+  margin-bottom: 2rem;
+}
+
+.wishlist-header h1 {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.wishlist-header p {
+  color: var(--text-secondary);
+}
+
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.wishlist-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.wishlist-card-image {
+  display: block;
+  height: 180px;
+  overflow: hidden;
+}
+
+.wishlist-img {
+  width: 100%;
+  height: 100%;
+}
+
+.wishlist-card-info {
+  padding: 1.25rem;
+}
+
+.wishlist-card-info h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.wishlist-price {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.wishlist-card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.wishlist-add-btn {
+  flex: 1;
+  padding: 0.65rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.wishlist-remove-btn {
+  width: 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.wishlist-remove-btn:hover {
+  background: #fff5f5;
+  color: #e53e3e;
+  border-color: #fc8181;
+}
+
+.wishlist-empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.wishlist-empty-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.wishlist-empty h2 {
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.wishlist-empty p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .wishlist-page {
+    padding: 1.25rem;
+  }
+}
