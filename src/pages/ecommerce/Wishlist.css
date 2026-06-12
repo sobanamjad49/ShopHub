@@ -8,6 +8,11 @@
 
 .wishlist-header {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .wishlist-header h1 {
@@ -117,6 +122,53 @@
 .wishlist-empty p {
   color: var(--text-secondary);
   margin-bottom: 1.5rem;
+}
+
+.wishlist-header-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.wishlist-move-all {
+  padding: 0.5rem 1rem;
+  background: var(--gradient-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.wishlist-clear-all {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--accent-coral);
+  color: var(--accent-coral);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.wishlist-clear-all:hover {
+  background: var(--accent-coral);
+  color: #fff;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--gradient-primary);
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {

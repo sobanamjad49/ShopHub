@@ -261,3 +261,42 @@
   color: var(--primary, #667eea);
   margin: 0.25rem 0 0 0;
 }
+
+.order-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 1rem;
+}
+
+.order-details-header h2 {
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+.invoice-btn {
+  padding: 0.5rem 1rem;
+  background: var(--gradient-primary);
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.order-delivery {
+  padding: 0.75rem;
+  background: var(--bg-muted);
+  border-radius: var(--radius-sm);
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}

@@ -9,7 +9,7 @@ import AnimatedPage from '../../components/common/AnimatedPage';
 import './Wishlist.css';
 
 const Wishlist = () => {
-  const { wishlistItems, removeFromWishlist } = useWishlist();
+  const { wishlistItems, removeFromWishlist, clearWishlist } = useWishlist();
   const { addToCart } = useCart();
   const { showToast } = useToast();
 
@@ -18,16 +18,38 @@ const Wishlist = () => {
     showToast(`${product.name} added to cart!`);
   };
 
+  const handleMoveAllToCart = () => {
+    wishlistItems.forEach((p) => addToCart(p, 1));
+    showToast(`${wishlistItems.length} items moved to cart!`);
+  };
+
   const handleRemove = (product) => {
     removeFromWishlist(product.id);
     showToast(`${product.name} removed from wishlist`);
   };
 
+  const handleClear = () => {
+    clearWishlist();
+    showToast('Wishlist cleared');
+  };
+
   return (
     <AnimatedPage className="wishlist-page">
       <div className="wishlist-header">
-        <h1>❤️ My Wishlist</h1>
-        <p>{wishlistItems.length} saved product{wishlistItems.length !== 1 ? 's' : ''}</p>
+        <div>
+          <h1>❤️ My Wishlist</h1>
+          <p>{wishlistItems.length} saved product{wishlistItems.length !== 1 ? 's' : ''}</p>
+        </div>
+        {wishlistItems.length > 0 && (
+          <div className="wishlist-header-actions">
+            <button type="button" className="wishlist-move-all" onClick={handleMoveAllToCart}>
+              Move All to Cart
+            </button>
+            <button type="button" className="wishlist-clear-all" onClick={handleClear}>
+              Clear Wishlist
+            </button>
+          </div>
+        )}
       </div>
 
       {wishlistItems.length > 0 ? (
@@ -35,7 +57,7 @@ const Wishlist = () => {
           {wishlistItems.map((product, i) => (
             <motion.div
               key={product.id}
-              className="wishlist-card"
+              className="wishlist-card glass-card"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
@@ -50,7 +72,7 @@ const Wishlist = () => {
                 <p className="wishlist-price">${product.price.toFixed(2)}</p>
                 <div className="wishlist-card-actions">
                   <button type="button" className="wishlist-add-btn" onClick={() => handleAddToCart(product)}>
-                    Add to Cart
+                    Move to Cart
                   </button>
                   <button
                     type="button"
@@ -66,7 +88,7 @@ const Wishlist = () => {
           ))}
         </div>
       ) : (
-        <div className="wishlist-empty">
+        <div className="wishlist-empty glass-card">
           <span className="wishlist-empty-icon">🤍</span>
           <h2>Your wishlist is empty</h2>
           <p>Save your favorite products to find them later.</p>

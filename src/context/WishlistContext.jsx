@@ -44,6 +44,8 @@ export const WishlistProvider = ({ children }) => {
   const isInWishlist = (productId) =>
     wishlistItems.some((item) => item.id === productId);
 
+  const clearWishlist = () => setWishlistItems([]);
+
   const getWishlistCount = () => wishlistItems.length;
 
   const value = {
@@ -51,6 +53,7 @@ export const WishlistProvider = ({ children }) => {
     addToWishlist,
     removeFromWishlist,
     toggleWishlist,
+    clearWishlist,
     isInWishlist,
     getWishlistCount,
   };

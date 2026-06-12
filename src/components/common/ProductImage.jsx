@@ -7,6 +7,7 @@ const ProductImage = ({
   alt,
   className = '',
   imgClassName = '',
+  imgStyle,
   loading = 'lazy',
 }) => {
   const [loaded, setLoaded] = useState(false);
@@ -21,6 +22,7 @@ const ProductImage = ({
         src={imageSrc}
         alt={alt}
         className={`product-image-el ${imgClassName}`}
+        style={imgStyle}
         loading={loading}
         onLoad={() => setLoaded(true)}
         onError={() => {

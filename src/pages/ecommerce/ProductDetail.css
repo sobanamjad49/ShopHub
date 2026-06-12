@@ -171,6 +171,58 @@
   color: #e53e3e;
 }
 
+.compare-large-btn {
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.2s;
+}
+
+.compare-large-btn.active {
+  border-color: var(--primary);
+  background: rgba(102, 126, 234, 0.1);
+  color: var(--primary);
+}
+
+.zoom-toggle-btn {
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  transition: all 0.2s;
+}
+
+.zoom-toggle-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.detail-zoom {
+  min-height: 400px;
+}
+
+.product-features.glass-card {
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.product-not-found.glass-card {
+  text-align: center;
+  padding: 3rem;
+  max-width: 500px;
+  margin: 4rem auto;
+}
+
 .add-to-cart-large-btn:hover {
   opacity: 0.92;
   transform: scale(1.02);

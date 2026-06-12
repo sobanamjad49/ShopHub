@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { useCompare } from '../../context/CompareContext';
 import { useTheme } from '../../context/ThemeContext';
 import ProductImage from './ProductImage';
 import './Header.css';
@@ -11,6 +12,7 @@ const Header = () => {
   const location = useLocation();
   const { cartItems, getTotalItems, getTotalPrice } = useCart();
   const { getWishlistCount } = useWishlist();
+  const { getCompareCount } = useCompare();
   const { toggleTheme, isDark } = useTheme();
   const [showCart, setShowCart] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -30,6 +32,7 @@ const Header = () => {
 
   const cartCount = getTotalItems();
   const wishlistCount = getWishlistCount();
+  const compareCount = getCompareCount();
 
   return (
     <header className="header">
@@ -43,6 +46,8 @@ const Header = () => {
           <Link to="/" className={isActive('/') ? 'active' : ''} onClick={() => setShowMenu(false)}>Home</Link>
           <Link to="/products" className={isActive('/products') ? 'active' : ''} onClick={() => setShowMenu(false)}>Products</Link>
           <Link to="/wishlist" className={isActive('/wishlist') ? 'active' : ''} onClick={() => setShowMenu(false)}>Wishlist</Link>
+          <Link to="/compare" className={isActive('/compare') ? 'active' : ''} onClick={() => setShowMenu(false)}>Compare</Link>
+          <Link to="/recent" className={isActive('/recent') ? 'active' : ''} onClick={() => setShowMenu(false)}>Recent</Link>
           <Link to="/orders" className={isActive('/orders') ? 'active' : ''} onClick={() => setShowMenu(false)}>Orders</Link>
           <Link to="/admin" className={isActive('/admin') ? 'active' : ''} onClick={() => setShowMenu(false)}>Admin</Link>
         </nav>
@@ -60,6 +65,23 @@ const Header = () => {
 
           <Link to="/profile" className="profile-link" title="Profile">
             <span className="profile-avatar-sm">👤</span>
+          </Link>
+
+          <Link to="/compare" className="compare-link" title="Compare">
+            <span className="compare-icon">⚖️</span>
+            <AnimatePresence>
+              {compareCount > 0 && (
+                <motion.span
+                  className="compare-count"
+                  key={compareCount}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                >
+                  {compareCount}
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Link>
 
           <Link to="/wishlist" className="wishlist-link" title="Wishlist">

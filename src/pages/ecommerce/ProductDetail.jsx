@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useProducts } from '../../context/ProductContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { useCompare } from '../../context/CompareContext';
+import { useViewed } from '../../context/ViewedContext';
 import { useToast } from '../../context/ToastContext';
 import ImageGallery from '../../components/common/ImageGallery';
+import ImageZoom from '../../components/common/ImageZoom';
 import ProductQRCode from '../../components/common/ProductQRCode';
+import ProductShare from '../../components/common/ProductShare';
 import ProductCard from '../../components/common/ProductCard';
 import AnimatedPage from '../../components/common/AnimatedPage';
 import { getProductImages } from '../../utils/productImages';
@@ -18,17 +22,27 @@ const ProductDetail = () => {
   const { getProductById, products } = useProducts();
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { toggleCompare, isInCompare, maxCompare } = useCompare();
+  const { addViewedProduct } = useViewed();
   const { showToast } = useToast();
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [showZoom, setShowZoom] = useState(false);
 
   const product = getProductById(parseInt(id, 10));
+
+  useEffect(() => {
+    if (product) {
+      addViewedProduct(product);
+    }
+  }, [product, addViewedProduct]);
 
   if (!product) {
     return (
       <AnimatedPage className="product-detail-page">
-        <div className="product-not-found">
+        <div className="product-not-found glass-card">
           <h2>Product Not Found</h2>
+          <p>The product you're looking for doesn't exist.</p>
           <button type="button" onClick={() => navigate('/products')}>Back to Products</button>
         </div>
       </AnimatedPage>
@@ -40,6 +54,7 @@ const ProductDetail = () => {
     .slice(0, 4);
 
   const inWishlist = isInWishlist(product.id);
+  const inCompare = isInCompare(product.id);
   const galleryImages = getProductImages(product);
 
   const handleAddToCart = () => {
@@ -58,6 +73,19 @@ const ProductDetail = () => {
     );
   };
 
+  const handleCompare = () => {
+    const result = toggleCompare(product);
+    if (result === null) {
+      showToast(`Maximum ${maxCompare} products can be compared`);
+      return;
+    }
+    showToast(
+      result
+        ? `${product.name} added to compare!`
+        : `${product.name} removed from compare`
+    );
+  };
+
   return (
     <AnimatedPage className="product-detail-page">
       <button type="button" className="back-btn" onClick={() => navigate('/products')}>
@@ -71,11 +99,22 @@ const ProductDetail = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="product-image-section">
-          <ImageGallery
-            images={galleryImages}
-            alt={product.name}
-            badge={product.category}
-          />
+          {showZoom ? (
+            <ImageZoom src={galleryImages[0]} alt={product.name} className="detail-zoom" />
+          ) : (
+            <ImageGallery
+              images={galleryImages}
+              alt={product.name}
+              badge={product.category}
+            />
+          )}
+          <button
+            type="button"
+            className="zoom-toggle-btn"
+            onClick={() => setShowZoom(!showZoom)}
+          >
+            {showZoom ? '🖼️ Gallery View' : '🔍 Zoom View'}
+          </button>
         </div>
 
         <div className="product-details-section">
@@ -122,11 +161,19 @@ const ProductDetail = () => {
             >
               {inWishlist ? '❤️ In Wishlist' : '🤍 Add to Wishlist'}
             </button>
+            <button
+              type="button"
+              className={`compare-large-btn ${inCompare ? 'active' : ''}`}
+              onClick={handleCompare}
+            >
+              {inCompare ? '⚖️ In Compare' : '⚖️ Compare'}
+            </button>
           </div>
 
+          <ProductShare product={product} />
           <ProductQRCode productId={product.id} productName={product.name} />
 
-          <div className="product-features">
+          <div className="product-features glass-card">
             <h3>Product Details</h3>
             <ul>
               <li>High quality materials</li>

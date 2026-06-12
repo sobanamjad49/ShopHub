@@ -579,3 +579,33 @@
   border-radius: 2px;
   transition: width 0.06s linear;
 }
+
+.success-actions {
+  margin: 1rem 0;
+}
+
+.invoice-link-btn {
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  background: var(--gradient-primary);
+  color: #fff;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+}
+
+.delivery-text {
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.calc-row.discount span:last-child {
+  color: #48bb78;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-md);
+}

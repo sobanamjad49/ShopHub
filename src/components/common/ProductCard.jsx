@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { useCompare } from '../../context/CompareContext';
 import { useToast } from '../../context/ToastContext';
 import ProductImage from './ProductImage';
 import QuickViewModal from './QuickViewModal';
@@ -11,10 +12,12 @@ import './ProductCard.css';
 const ProductCard = ({ product, index = 0 }) => {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { toggleCompare, isInCompare, maxCompare } = useCompare();
   const { showToast } = useToast();
   const [justAdded, setJustAdded] = useState(false);
   const [showQuickView, setShowQuickView] = useState(false);
   const inWishlist = isInWishlist(product.id);
+  const inCompare = isInCompare(product.id);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -33,6 +36,19 @@ const ProductCard = ({ product, index = 0 }) => {
     );
   };
 
+  const handleCompare = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const result = toggleCompare(product);
+    if (result === null) {
+      showToast(`Maximum ${maxCompare} products can be compared`);
+      return;
+    }
+    showToast(
+      result ? `${product.name} added to compare!` : `${product.name} removed from compare`
+    );
+  };
+
   const handleQuickView = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -42,7 +58,7 @@ const ProductCard = ({ product, index = 0 }) => {
   return (
     <>
       <motion.div
-        className="product-card"
+        className="product-card glass-card-hover"
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: index * 0.06 }}
@@ -59,9 +75,13 @@ const ProductCard = ({ product, index = 0 }) => {
           </button>
           <button
             type="button"
-            className="quick-view-btn"
-            onClick={handleQuickView}
+            className={`compare-btn ${inCompare ? 'active' : ''}`}
+            onClick={handleCompare}
+            aria-label={inCompare ? 'Remove from compare' : 'Add to compare'}
           >
+            ⚖️
+          </button>
+          <button type="button" className="quick-view-btn" onClick={handleQuickView}>
             Quick View
           </button>
         </div>

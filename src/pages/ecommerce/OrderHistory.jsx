@@ -37,7 +37,7 @@ const OrderHistory = () => {
               {orders.map((order, i) => (
                 <motion.div
                   key={order.id}
-                  className={`order-card ${selectedOrder?.id === order.id ? 'active' : ''}`}
+                  className={`order-card glass-card ${selectedOrder?.id === order.id ? 'active' : ''}`}
                   onClick={() => setSelectedOrder(order)}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -57,14 +57,23 @@ const OrderHistory = () => {
 
             {selectedOrder && (
               <motion.div
-                className="order-details"
+                className="order-details glass-card"
                 key={selectedOrder.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <h2>Order Details</h2>
+                <div className="order-details-header">
+                  <h2>Order Details</h2>
+                  <Link to={`/invoice?orderId=${selectedOrder.id}`} className="invoice-btn">
+                    🖨️ View Invoice
+                  </Link>
+                </div>
 
                 <OrderTimeline status={selectedOrder.status} />
+
+                {selectedOrder.estimatedDelivery && (
+                  <p className="order-delivery">📦 Est. delivery: {selectedOrder.estimatedDelivery}</p>
+                )}
 
                 <div className="order-info-section">
                   <h3>Shipping Information</h3>
@@ -94,6 +103,12 @@ const OrderHistory = () => {
                 </div>
 
                 <div className="order-summary">
+                  {selectedOrder.coupon && (
+                    <div className="summary-line">
+                      <span>Coupon:</span>
+                      <span>{selectedOrder.coupon}</span>
+                    </div>
+                  )}
                   <div className="summary-line">
                     <span>Total:</span>
                     <span>${selectedOrder.total}</span>
@@ -108,7 +123,7 @@ const OrderHistory = () => {
           </div>
         ) : (
           <motion.div
-            className="no-orders"
+            className="no-orders glass-card"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
           >

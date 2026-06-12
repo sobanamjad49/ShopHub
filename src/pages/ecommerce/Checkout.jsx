@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../context/CartContext';
+import { useCoupon } from '../../context/CouponContext';
 import Confetti from '../../components/common/Confetti';
 import AnimatedPage from '../../components/common/AnimatedPage';
+import { calculateOrderTotal, getEstimatedDelivery } from '../../utils/orderCalculations';
 import './Checkout.css';
 
 const STEPS = ['Shipping', 'Payment', 'Review'];
@@ -11,6 +13,7 @@ const STEPS = ['Shipping', 'Payment', 'Review'];
 const Checkout = () => {
   const navigate = useNavigate();
   const { cartItems, getTotalPrice, clearCart } = useCart();
+  const { appliedCoupon, getDiscountAmount, isFreeShipping, removeCoupon } = useCoupon();
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -29,6 +32,11 @@ const Checkout = () => {
   const [orderId, setOrderId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [redirectProgress, setRedirectProgress] = useState(0);
+
+  const subtotal = getTotalPrice();
+  const discount = getDiscountAmount(subtotal);
+  const orderCalc = calculateOrderTotal(subtotal, discount, isFreeShipping());
+  const estimatedDelivery = getEstimatedDelivery();
 
   useEffect(() => {
     try {
@@ -57,7 +65,7 @@ const Checkout = () => {
     const interval = setInterval(() => {
       setRedirectProgress((p) => Math.min(p + 2, 100));
     }, 60);
-    const timeout = setTimeout(() => navigate('/orders'), 3000);
+    const timeout = setTimeout(() => navigate('/orders'), 4000);
     return () => {
       clearInterval(interval);
       clearTimeout(timeout);
@@ -83,7 +91,13 @@ const Checkout = () => {
       id,
       date: new Date().toLocaleDateString(),
       items: cartItems,
-      total: (getTotalPrice() * 1.1).toFixed(2),
+      subtotal: orderCalc.subtotal.toFixed(2),
+      discount: discount.toFixed(2),
+      shipping: orderCalc.shipping.toFixed(2),
+      tax: orderCalc.tax.toFixed(2),
+      total: orderCalc.total.toFixed(2),
+      coupon: appliedCoupon?.code || null,
+      estimatedDelivery,
       customerInfo: {
         ...safeCustomerInfo,
         paymentLast4: cardNumber.slice(-4) || '****',
@@ -96,6 +110,7 @@ const Checkout = () => {
     setOrderId(id);
     setOrderPlaced(true);
     clearCart();
+    removeCoupon();
     setIsSubmitting(false);
   };
 
@@ -105,7 +120,7 @@ const Checkout = () => {
   if (!cartItems.length && !orderPlaced) {
     return (
       <AnimatedPage className="checkout-page">
-        <div className="empty-checkout">
+        <div className="empty-checkout glass-card">
           <h2>Your cart is empty</h2>
           <button onClick={() => navigate('/products')}>Back to Shopping</button>
         </div>
@@ -126,7 +141,7 @@ const Checkout = () => {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="success-card"
+              className="success-card glass-card"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ type: 'spring', stiffness: 200, damping: 20 }}
@@ -171,9 +186,29 @@ const Checkout = () => {
               </motion.p>
 
               <motion.p
+                className="delivery-text"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 }}
+              >
+                📦 Estimated delivery: {estimatedDelivery}
+              </motion.p>
+
+              <motion.div
+                className="success-actions"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1 }}
+              >
+                <Link to={`/invoice?orderId=${orderId}`} className="invoice-link-btn">
+                  View Invoice
+                </Link>
+              </motion.div>
+
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.1 }}
               >
                 Redirecting to your orders...
               </motion.p>
@@ -259,7 +294,9 @@ const Checkout = () => {
                         <p>{formData.address}, {formData.city}, {formData.state} {formData.zip}</p>
                         <p><strong>Email:</strong> {formData.email}</p>
                         <p><strong>Items:</strong> {cartItems.length} product(s)</p>
-                        <p className="review-total"><strong>Total:</strong> ${(getTotalPrice() * 1.1).toFixed(2)}</p>
+                        <p><strong>Delivery:</strong> {estimatedDelivery}</p>
+                        {appliedCoupon && <p><strong>Coupon:</strong> {appliedCoupon.code}</p>}
+                        <p className="review-total"><strong>Total:</strong> ${orderCalc.total.toFixed(2)}</p>
                       </div>
                     </motion.fieldset>
                   )}
@@ -284,7 +321,7 @@ const Checkout = () => {
               </form>
             </div>
 
-            <div className="order-summary-section">
+            <div className="order-summary-section glass-card">
               <h2>Order Summary</h2>
               <div className="order-items">
                 {cartItems.map((item) => (
@@ -300,20 +337,26 @@ const Checkout = () => {
               <div className="order-calculation">
                 <div className="calc-row">
                   <span>Subtotal:</span>
-                  <span>${getTotalPrice().toFixed(2)}</span>
+                  <span>${orderCalc.subtotal.toFixed(2)}</span>
                 </div>
+                {discount > 0 && (
+                  <div className="calc-row discount">
+                    <span>Discount:</span>
+                    <span>-${discount.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="calc-row">
                   <span>Shipping:</span>
-                  <span className="free">Free</span>
+                  <span className="free">{orderCalc.shipping === 0 ? 'Free' : `$${orderCalc.shipping.toFixed(2)}`}</span>
                 </div>
                 <div className="calc-row">
                   <span>Tax (10%):</span>
-                  <span>${(getTotalPrice() * 0.1).toFixed(2)}</span>
+                  <span>${orderCalc.tax.toFixed(2)}</span>
                 </div>
                 <div className="calc-divider" />
                 <div className="calc-row total">
                   <span>Total:</span>
-                  <span>${(getTotalPrice() * 1.1).toFixed(2)}</span>
+                  <span>${orderCalc.total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

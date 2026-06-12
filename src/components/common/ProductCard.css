@@ -32,6 +32,7 @@
 }
 
 .wishlist-btn,
+.compare-btn,
 .quick-view-btn {
   border: none;
   cursor: pointer;
@@ -51,6 +52,30 @@
 
 .wishlist-btn.active {
   background: #fff5f5;
+}
+
+.compare-btn {
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  font-size: 0.9rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.compare-btn.active {
+  background: rgba(102, 126, 234, 0.15);
+}
+
+.glass-card-hover {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: box-shadow 0.3s, transform 0.2s;
+}
+
+.glass-card-hover:hover {
+  box-shadow: var(--shadow-card);
 }
 
 .quick-view-btn {

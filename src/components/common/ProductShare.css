@@ -1,0 +1,79 @@
+.product-share {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+}
+
+.product-share h4 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.share-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.share-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.share-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.share-btn.primary {
+  background: var(--gradient-primary);
+  color: #fff;
+  border: none;
+}
+
+.share-btn.copied {
+  background: #48bb78;
+  color: #fff;
+  border-color: #48bb78;
+}
+
+.share-social {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.share-social-link {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-muted);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.share-social-link:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme='dark'] .glass-card {
+  background: rgba(30, 41, 59, 0.7);
+  border-color: rgba(255, 255, 255, 0.08);
+}
