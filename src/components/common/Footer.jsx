@@ -12,14 +12,45 @@ const Footer = () => {
         </div>
 
         <div className="footer-section">
-          <h4>Quick Links</h4>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/products">Products</Link></li>
-            <li><Link to="/about">About Us</Link></li>
-            <li><Link to="/contact">Contact</Link></li>
-          </ul>
-        </div>
+  <h4>Follow Us</h4>
+  <div className="social-links">
+    <a
+      href="https://facebook.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="social-link"
+    >
+      Facebook
+    </a>
+
+    <a
+      href="https://twitter.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="social-link"
+    >
+      Twitter
+    </a>
+
+    <a
+      href="https://instagram.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="social-link"
+    >
+      Instagram
+    </a>
+
+    <a
+      href="https://linkedin.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="social-link"
+    >
+      LinkedIn
+    </a>
+  </div>
+</div>
 
         <div className="footer-section">
           <h4>Customer Service</h4>
