@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useProducts } from '../../context/ProductContext';
@@ -37,7 +37,7 @@ const Landing = () => {
   const { products } = useProducts();
   const featured = products.slice(0, 4);
   const trending = getTrendingProducts(products, 4);
-  const [showSpin, setShowSpin] = useState(false);
+
 
   return (
     <AnimatedPage className="landing">
