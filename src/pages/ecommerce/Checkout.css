@@ -1,6 +1,6 @@
 .checkout-page {
   flex: 1;
-  background-color: #f5f5f5;
+  background-color: var(--bg-body);
   padding: 2rem;
 }
 
@@ -12,7 +12,7 @@
 .checkout-container h1 {
   margin: 0 0 2rem 0;
   font-size: 2.5rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .checkout-content {
@@ -22,9 +22,10 @@
 }
 
 .checkout-form-section {
-  background: white;
+  background: var(--bg-card);
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
 }
 
 .checkout-form {
@@ -378,6 +379,10 @@
 }
 
 @media (max-width: 768px) {
+  .checkout-page {
+    padding: 1rem;
+  }
+
   .checkout-content {
     grid-template-columns: 1fr;
   }
@@ -400,6 +405,19 @@
 
   .checkout-container h1 {
     font-size: 1.8rem;
+  }
+
+  .checkout-steps {
+    max-width: 100%;
+    gap: 0;
+  }
+
+  .checkout-step span {
+    display: none;
+  }
+
+  .step-line {
+    margin: 0 0.25rem;
   }
 }
 

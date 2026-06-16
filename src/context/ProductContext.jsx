@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { PRODUCTS } from '../data/products';
 import { PRODUCTS_STORAGE_KEY } from '../utils/config';
+import { productMatchesSearch } from '../utils/search';
 
 const ProductContext = createContext();
 
@@ -54,12 +55,7 @@ export const ProductProvider = ({ children }) => {
     }
 
     if (searchTerm.trim()) {
-      const term = searchTerm.toLowerCase();
-      filtered = filtered.filter(
-        (p) =>
-          p.name.toLowerCase().includes(term) ||
-          p.description.toLowerCase().includes(term)
-      );
+      filtered = filtered.filter((p) => productMatchesSearch(p, searchTerm));
     }
 
     filtered = filtered.filter(

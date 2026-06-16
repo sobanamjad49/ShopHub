@@ -1,0 +1,115 @@
+.flash-sale-banner {
+  background: linear-gradient(90deg, #1a1a2e 0%, #667eea 50%, #764ba2 100%);
+  padding: 0.875rem 1.5rem;
+}
+
+.flash-sale-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.flash-sale-text {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.flash-badge {
+  background: var(--gradient-accent);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.flash-sale-text p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.flash-countdown {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 0.35rem 0.625rem;
+  border-radius: var(--radius-sm);
+  min-width: 44px;
+}
+
+.countdown-unit span {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: white;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-unit small {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+}
+
+.countdown-sep {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.flash-shop-btn {
+  padding: 0.5rem 1.25rem;
+  background: white;
+  color: var(--primary);
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  transition: transform 0.2s;
+}
+
+.flash-shop-btn:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 640px) {
+  .flash-sale-banner {
+    padding: 0.75rem 1rem;
+  }
+
+  .flash-sale-inner {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .flash-sale-text {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .flash-countdown {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .flash-shop-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useProducts } from '../../context/ProductContext';
 import ProductCard from '../../components/common/ProductCard';
 import ProductImage from '../../components/common/ProductImage';
+import FlashSaleBanner from '../../components/common/FlashSaleBanner';
+
 import ScrollReveal from '../../components/common/ScrollReveal';
 import AnimatedPage from '../../components/common/AnimatedPage';
+import { getTrendingProducts } from '../../utils/search';
 import './Landing.css';
 
 const features = [
@@ -33,9 +36,13 @@ const testimonials = [
 const Landing = () => {
   const { products } = useProducts();
   const featured = products.slice(0, 4);
+  const trending = getTrendingProducts(products, 4);
+  const [showSpin, setShowSpin] = useState(false);
 
   return (
     <AnimatedPage className="landing">
+      <FlashSaleBanner />
+
       <section className="hero">
         <div className="hero-bg-mesh" />
         <div className="hero-inner">
@@ -50,7 +57,7 @@ const Landing = () => {
             <p>Your destination for quality products at great prices. Discover premium tech, accessories, and more.</p>
             <div className="hero-actions">
               <Link to="/products" className="cta-btn">Start Shopping</Link>
-              <Link to="/about" className="cta-btn-outline">Learn More</Link>
+              
             </div>
           </motion.div>
 
@@ -111,6 +118,18 @@ const Landing = () => {
         </div>
       </section>
 
+      <section className="featured-products trending-section">
+        <ScrollReveal>
+          <h2 className="section-title">🔥 Trending Now</h2>
+          <p className="section-subtitle">Most popular products this week</p>
+        </ScrollReveal>
+        <div className="products-preview">
+          {trending.map((product, i) => (
+            <ProductCard key={product.id} product={product} index={i} />
+          ))}
+        </div>
+      </section>
+
       <section className="featured-products">
         <ScrollReveal>
           <h2 className="section-title">Popular Products</h2>
@@ -159,6 +178,8 @@ const Landing = () => {
           </div>
         </ScrollReveal>
       </section>
+
+
     </AnimatedPage>
   );
 };

@@ -5,21 +5,27 @@ import { useProducts } from '../../context/ProductContext';
 import Sidebar from '../../components/common/Sidebar';
 import ProductCard from '../../components/common/ProductCard';
 import AnimatedPage from '../../components/common/AnimatedPage';
+import {
+  productMatchesSearch,
+  getSearchHistory,
+  addSearchHistory,
+  clearSearchHistory,
+} from '../../utils/search';
 import './Products.css';
 
 const Products = () => {
   const { filteredProducts, products, searchTerm, setSearchTerm, isLoading } = useProducts();
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [searchHistory, setSearchHistory] = useState([]);
   const searchRef = useRef(null);
 
+  useEffect(() => {
+    setSearchHistory(getSearchHistory());
+  }, []);
+
   const suggestions = searchTerm.trim()
-    ? products
-        .filter(
-          (p) =>
-            p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            p.category.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-        .slice(0, 6)
+    ? products.filter((p) => productMatchesSearch(p, searchTerm)).slice(0, 6)
     : [];
 
   useEffect(() => {
@@ -32,19 +38,40 @@ const Products = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      addSearchHistory(searchTerm);
+      setSearchHistory(getSearchHistory());
+    }
+    setShowSuggestions(false);
+  };
+
+  const handleHistoryClick = (term) => {
+    setSearchTerm(term);
+    addSearchHistory(term);
+    setSearchHistory(getSearchHistory());
+    setShowSuggestions(false);
+  };
+
+  const handleClearHistory = () => {
+    clearSearchHistory();
+    setSearchHistory([]);
+  };
+
   return (
     <AnimatedPage className="products-page">
       <div className="search-section">
-        <div className="search-container" ref={searchRef}>
+        <form className="search-container" ref={searchRef} onSubmit={handleSearchSubmit}>
           <input
             type="text"
-            placeholder="Search products..."
+            placeholder="Smart search — try 'headphnes' (typo OK)..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             onFocus={() => setShowSuggestions(true)}
             className="search-input"
           />
-          <button className="search-btn" aria-label="Search">🔍</button>
+          <button className="search-btn" type="submit" aria-label="Search">🔍</button>
 
           {showSuggestions && suggestions.length > 0 && (
             <ul className="search-suggestions glass-card">
@@ -53,7 +80,11 @@ const Products = () => {
                   <Link
                     to={`/products/${product.id}`}
                     className="suggestion-item"
-                    onClick={() => setShowSuggestions(false)}
+                    onClick={() => {
+                      addSearchHistory(searchTerm);
+                      setSearchHistory(getSearchHistory());
+                      setShowSuggestions(false);
+                    }}
                   >
                     <span className="suggestion-name">{product.name}</span>
                     <span className="suggestion-meta">{product.category} · ${product.price.toFixed(2)}</span>
@@ -62,11 +93,40 @@ const Products = () => {
               ))}
             </ul>
           )}
-        </div>
+
+          {showSuggestions && !searchTerm.trim() && searchHistory.length > 0 && (
+            <div className="search-history glass-card">
+              <div className="search-history-header">
+                <span>Recent Searches</span>
+                <button type="button" onClick={handleClearHistory}>Clear</button>
+              </div>
+              <ul>
+                {searchHistory.map((term) => (
+                  <li key={term}>
+                    <button type="button" onClick={() => handleHistoryClick(term)}>
+                      🕐 {term}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </form>
       </div>
 
       <div className="products-container">
-        <Sidebar />
+        <button
+          type="button"
+          className="filters-toggle-btn"
+          onClick={() => setShowFilters(!showFilters)}
+          aria-expanded={showFilters}
+        >
+          {showFilters ? '✕ Close Filters' : '⚙️ Filters & Sort'}
+        </button>
+
+        <div className={`sidebar-wrapper ${showFilters ? 'open' : ''}`}>
+          <Sidebar />
+        </div>
 
         <main className="products-main">
           <motion.div

@@ -14,6 +14,7 @@ import ProductShare from '../../components/common/ProductShare';
 import ProductCard from '../../components/common/ProductCard';
 import AnimatedPage from '../../components/common/AnimatedPage';
 import { getProductImages } from '../../utils/productImages';
+import { getFrequentlyBoughtTogether } from '../../utils/search';
 import './ProductDetail.css';
 
 const ProductDetail = () => {
@@ -52,6 +53,8 @@ const ProductDetail = () => {
   const related = products
     .filter((p) => p.category === product.category && p.id !== product.id)
     .slice(0, 4);
+
+  const boughtTogether = getFrequentlyBoughtTogether(products, product.id, 3);
 
   const inWishlist = isInWishlist(product.id);
   const inCompare = isInCompare(product.id);
@@ -184,6 +187,23 @@ const ProductDetail = () => {
           </div>
         </div>
       </motion.div>
+
+      {boughtTogether.length > 0 && (
+        <section className="frequently-bought">
+          <h2>Frequently Bought Together</h2>
+          <div className="fbt-grid">
+            <div className="fbt-main">
+              <ProductCard product={product} index={0} />
+            </div>
+            <span className="fbt-plus">+</span>
+            <div className="fbt-others">
+              {boughtTogether.map((p, i) => (
+                <ProductCard key={p.id} product={p} index={i + 1} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {related.length > 0 && (
         <section className="related-products">

@@ -188,6 +188,16 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5rem;
 }
 
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+  }
+}
+
 .section-subtitle {
   color: var(--text-secondary);
   font-size: 1.05rem;
